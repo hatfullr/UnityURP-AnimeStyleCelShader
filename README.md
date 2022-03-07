@@ -75,7 +75,7 @@ Each material has configurable settings to modify how lighting behaves on the mo
 | Shadow Falloff | 1.0 to 2.0 | Higher values result in harder shadows. |
 | Alternate Shadows | Off | Uses an inverse lighting falloff, which softens shadows. |
 
-Examples of the differences of: [Vertex Lighting](.Images/VertexLit.png) and [Pixel Lighting](.Images/PixelLit.png).
+Examples of the differences of: [Vertex Lighting](.Images/VertexLitSmall.png) and [Pixel Lighting](.Images/PixelLitSmall.png).
 
 A project's settings or a scene's lighting can greatly effect the result of the shader in positive and negative ways.
 
