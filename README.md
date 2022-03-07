@@ -128,7 +128,9 @@ None.
 
 *3-Point Setup*
 ![Image](.Images/3Point.png)
-[コッコロ](https://i-fox.club/pcr/)
+
+*Lit Group*
+![Image](.Images/LitGroup.png)
 
 ## Comparisons
 
@@ -141,6 +143,7 @@ URP's Lit
 ## Credits
 
 * Inspiration and ideas from Colin Leung (NiloCat)'s [UnityURPToonLitShaderExample](https://github.com/ColinLeung-NiloCat/UnityURPToonLitShaderExample).
+* Re:Dive models from [https://i-fox.club/pcr/](https://i-fox.club/pcr/) and group pose for comparison.
 * Unity Technologies for [referencing the URP](https://github.com/Unity-Technologies/Graphics).
 
 ## License
