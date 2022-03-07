@@ -6,8 +6,8 @@
 */
 
 // Material keywords.
-#pragma shader_feature _EDGE_DEBUG_ON
-#pragma shader_feature _EDGE_BLEND_MULT _EDGE_BLEND_BURN _EDGE_BLEND_OVERLAY _EDGE_BLEND_ADD
+#pragma shader_feature EDGE_DEBUG_ON
+#pragma shader_feature EDGE_BLEND_MULT EDGE_BLEND_BURN EDGE_BLEND_OVERLAY EDGE_BLEND_ADD
 
 // URP keywords.
 #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
@@ -79,16 +79,16 @@ float4 frag(Varyings input) : SV_Target
 	half edgeOpacity = _EdgeColor.a * edge.a;
 
 	// Blend screen with edge.
-	#if defined(_EDGE_DEBUG_ON)
+	#if defined(EDGE_DEBUG_ON)
 		return float4(edge.r, edge.g, edge.b, 1);
-	#elif defined(_EDGE_BLEND_BURN)
+	#elif defined(EDGE_BLEND_BURN)
 		color = clamp(1 - (1 - color) / (edgeColor * edgeOpacity + (1.0 - edgeOpacity)), 0, 1);
-	#elif defined(_EDGE_BLEND_MULT)
+	#elif defined(EDGE_BLEND_MULT)
 		color *= edgeColor * edgeOpacity + (1.0 - edgeOpacity);
-	#elif defined(_EDGE_BLEND_OVERLAY)
+	#elif defined(EDGE_BLEND_OVERLAY)
 		edgeColor = lerp(0.5, edgeColor, edgeOpacity);
 		color = (color > 0.5) * (1 - (1 - 2 * (color - 0.5)) * (1 - edgeColor)) + (color <= 0.5) * ((2 * color) * edgeColor);
-	#elif defined(_EDGE_BLEND_ADD)
+	#elif defined(EDGE_BLEND_ADD)
 		color += edgeColor * edgeOpacity;
 	#endif
 

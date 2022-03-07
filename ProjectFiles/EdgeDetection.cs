@@ -125,7 +125,7 @@ namespace AnimeCelShading
 
 		public static string ToString(BlendMode blendMode)
 		{
-			return $"_EDGE_BLEND_{blendMode.ToString().ToUpper()}";
+			return $"EDGE_BLEND_{blendMode.ToString().ToUpper()}";
 		}
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
@@ -206,11 +206,11 @@ namespace AnimeCelShading
 			
 			if (_settings.Visualize)
 			{
-				_material.EnableKeyword("_EDGE_DEBUG_ON");
+				_material.EnableKeyword("EDGE_DEBUG_ON");
 			}
 			else
 			{
-				_material.DisableKeyword("_EDGE_DEBUG_ON");
+				_material.DisableKeyword("EDGE_DEBUG_ON");
 			}
 		}
 	}
