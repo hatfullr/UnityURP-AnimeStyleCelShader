@@ -21,11 +21,15 @@ float4 GetEdgeStrength(float2 uv, float3 centerColor, float thickness, float dep
 	// Get current pixel.
 	float centerDepth = GetRealDepth(uv);
 	float3 centerNormal = SampleSceneNormals(uv);
-	int count = 9 * _EdgeQuality;
+
+	float size = 3 * _EdgeQuality;
+	float sizeH = size * 0.5;
+	
+	int count = size * size;
 
 	for (int i = 0; i < count; i++) {
 		// Get screen position from index.
-		float2 _uv = uv + float2(floor(i / 3) - 1, i % 3 - 1) * thickness;
+		float2 _uv = uv + float2(floor(i / size) - sizeH, floor(i % size) - sizeH) * thickness;
 
 		// Get pixel info.
 		float depth = GetRealDepth(_uv);

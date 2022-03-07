@@ -74,7 +74,7 @@ float4 frag(Varyings input) : SV_Target
 	float4 color = SAMPLE_TEXTURE2D_X(_CameraOpaqueTexture, sampler_CameraOpaqueTexture, input.uv);
 
 	// Get edge values.
-	float4 edge = GetEdgeStrength(input.uv, color, 1.0 / _ScreenParams.x * _EdgeSize, _EdgeDepth);
+	float4 edge = GetEdgeStrength(input.uv, color, 1.0 / _ScreenParams.x * _EdgeSize / _EdgeQuality, _EdgeDepth);
 	float4 edgeColor = _EdgeColor;
 	half edgeOpacity = _EdgeColor.a * edge.a;
 
