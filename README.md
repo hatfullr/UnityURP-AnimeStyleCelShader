@@ -45,9 +45,9 @@ Physically based rendering of anime-style models is an inaccurate representation
 
 ## Compatibility
 
-Requires Unity's [Universal Render Pipeline (URP)](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@11.0/manual/).
+Requires Unity's [Universal Render Pipeline (URP)](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/) with Unity version `2022.1.0b10` or greater for full compatibility.
 
-Currently untested in Unity versions earlier than `2022.1.0b9` or `13.1.5` for the URP on Windows 10.
+Requires Unity version `2022.1.0b10` or higher for full functionality.
 
 | Feature | Supported |
 | - | - |
@@ -59,6 +59,7 @@ Currently untested in Unity versions earlier than `2022.1.0b9` or `13.1.5` for t
 | Perspective Cameras | ✅ |
 | Pixel Lights | ✅ |
 | Vertex Lights | ✅ |
+| Decals | ✅ |
 
 ## Lighting
 
