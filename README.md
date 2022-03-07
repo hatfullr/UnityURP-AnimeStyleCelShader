@@ -60,6 +60,7 @@ Requires Unity version `2022.1.0b10` or higher for full functionality.
 | Pixel Lights | ✅ |
 | Vertex Lights | ✅ |
 | Decals | ✅ |
+| Virtual Reality | ✅ |
 
 ## Lighting
 
