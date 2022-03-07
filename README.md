@@ -50,7 +50,7 @@ Requires Unity's [Universal Render Pipeline (URP)](https://docs.unity3d.com/Pack
 Requires Unity version `2022.1.0b10` or higher for full functionality.
 
 | Feature | Supported |
-| - | - |
+| - | :-: |
 | Post Processing | ✅ |
 | Deferred Rendering | ✅ |
 | Accurate G-Buffer Normals | ✅ |
