@@ -136,9 +136,9 @@ Varyings vert(Attributes IN)
 {
 	Varyings OUT = (Varyings)0;
 
-	UNITY_SETUP_INSTANCE_ID(input);
-	UNITY_TRANSFER_INSTANCE_ID(input, output);
-	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+	UNITY_SETUP_INSTANCE_ID(IN);
+	UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
+	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
 
 	// Vertex positions.
 	VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS.xyz);
