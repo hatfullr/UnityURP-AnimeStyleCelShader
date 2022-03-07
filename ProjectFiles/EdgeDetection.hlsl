@@ -11,7 +11,6 @@
 
 // URP keywords.
 #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
-#pragma multi_compile_instancing
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
