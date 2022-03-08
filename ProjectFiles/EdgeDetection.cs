@@ -119,7 +119,7 @@ namespace AnimeCelShading
 
 		private EdgeDetectionSettings _settings;
 		private Material _material;
-		private ProfilingSampler _profileSampler = new ProfilingSampler("EDGE_DETECTION");
+		private ProfilingSampler _profileSampler = new ProfilingSampler("Edge Detection");
 		private RTHandle _target;
 		private BlendMode _blendMode;
 
