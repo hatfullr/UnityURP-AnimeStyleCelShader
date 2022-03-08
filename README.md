@@ -8,6 +8,9 @@
 	<a href="https://opensource.org/licenses/MIT">
 		<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License (MIT)">
 	</a>
+	<a href="https://github.com/Jameslroll/UnityURP-AnimeStyleCelShader/releases">
+		<img src="https://img.shields.io/github/v/release/Jameslroll/UnityURP-AnimeStyleCelShader?label=Release&display_name=tag&include_prereleases" alt="Release">
+	</a>
 	<a href="https://discord.gg/ssMzQPXjwq">
 		<img src="https://img.shields.io/discord/318871569323524096?label=Discord&logo=discord&logoColor=white" alt="Discord">
 	</a>
