@@ -66,6 +66,9 @@ Requires Unity version `2022.1.0b10` or higher for full functionality.
 | Vertex Lights | ✅ |
 | Decals | ✅ |
 | Virtual Reality | ✅ |
+| MSAA | ❌ |
+
+*MSAA is not supported (this can be disabled in the render pipeline settings), however other camera aliasing should work fine.*
 
 ## Lighting
 
