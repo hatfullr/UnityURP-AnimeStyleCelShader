@@ -43,7 +43,9 @@ Physically based rendering of anime-style models is an inaccurate representation
 	* Asset in `Project Settings/Quality/Render Pipeline Asset`.
 	* The renderer is in the asset, under `Renderer List`.
 * Click `Add Renderer Feature` at the bottom of the asset.
-* Add `Edge Detection`.
+* Add `Anime Stack`.
+* Select your render volume's profile used by the scene.
+* Add the `Anime/Edge Detection` effect.
 * Configure or use the default settings.
 
 ## Compatibility
@@ -86,7 +88,7 @@ A project's settings or a scene's lighting can greatly effect the result of the 
 
 ## Edges
 
-Edges are enabled as a feature in the render pipeline asset's renderer.
+The `Edge Detaction` post-processing effect can be added to your `Volume Profile` and are rendered by the `Anime Stack` renderer feature.
 
 | Setting | Recommended | Description |
 | - | - | - |
