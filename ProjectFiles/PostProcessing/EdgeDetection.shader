@@ -1,4 +1,4 @@
-Shader "Hidden/Anime/EdgeDetection"
+Shader "Hidden/AnimePostProcessing/EdgeDetection"
 {
 	SubShader
 	{

@@ -5,6 +5,9 @@
 	https://github.com/Unity-Technologies/Graphics/blob/1c44c48bf0384aa01cbf1487e39d7ae206638629/com.unity.render-pipelines.universal/ShaderLibrary/SSAO.hlsl
 */
 
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
 // Material keywords.
 #pragma shader_feature EDGE_DEBUG_ON
 #pragma shader_feature EDGE_BLEND_MULT EDGE_BLEND_BURN EDGE_BLEND_OVERLAY EDGE_BLEND_ADD
@@ -12,16 +15,18 @@
 // URP keywords.
 #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+TEXTURE2D(_SourceTex);
+TEXTURE2D(_SourceDepth);
 
-// #define SCREEN_PARAMS GetScaledScreenParams()
-// #define SAMPLE_BASEMAP(uv) SAMPLE_TEXTURE2D_X(_BaseMap, sampler_BaseMap, UnityStereoTransformScreenSpaceTex(uv));
+SamplerState sampler_LinearClamp;
 
-// #if defined(USING_STEREO_MATRICES)
-// 	#define unity_eyeIndex unity_StereoEyeIndex
-// #else
-// 	#define unity_eyeIndex 0
-// #endif
+float3 SampleSceneColor(float2 uv) {
+	return SAMPLE_TEXTURE2D(_SourceTex, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).rgb;
+}
+
+float SampleSceneDepth(float2 uv) {
+	return SAMPLE_TEXTURE2D(_SourceDepth, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).r;
+}
 
 int _EdgeQuality;
 half4 _EdgeColor;
@@ -71,10 +76,10 @@ float4 frag(Varyings input) : SV_Target
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
 	// Sample screen color.
-	float4 color = SAMPLE_TEXTURE2D_X(_CameraOpaqueTexture, sampler_CameraOpaqueTexture, input.uv);
+	float4 color = float4(SampleSceneColor(input.uv), 1);
 
 	// Get edge values.
-	float4 edge = GetEdgeStrength(input.uv, color, 1.0 / _ScreenParams.x * _EdgeSize / _EdgeQuality, _EdgeDepth);
+	float4 edge = GetEdgeStrength(input.uv, color.rgb, 1.0 / _ScreenParams.x * _EdgeSize / _EdgeQuality, _EdgeDepth);
 	float4 edgeColor = _EdgeColor;
 	half edgeOpacity = _EdgeColor.a * edge.a;
 
