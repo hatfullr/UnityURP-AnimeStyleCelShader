@@ -9,9 +9,8 @@ namespace AnimeCelShading
 	{
 		private static readonly int s_depthId = Shader.PropertyToID("_SourceDepth");
 
-		private RTHandle _sourceColorHandle;
-		private RTHandle _sourceDepthHandle;
 		private RTHandle _colorHandle;
+		private RTHandle _colorHandleTarget;
 		private RTHandle _depthHandle;
 
 		public AnimeStackPass()
@@ -26,8 +25,7 @@ namespace AnimeCelShading
 			RenderTextureDescriptor descriptor = cameraData.cameraTargetDescriptor;
 			descriptor.depthBufferBits = 0;
 
-			RenderingUtils.ReAllocateIfNeeded(ref _sourceColorHandle, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_SourceTex");
-			RenderingUtils.ReAllocateIfNeeded(ref _sourceDepthHandle, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_SourceDepth");
+			RenderingUtils.ReAllocateIfNeeded(ref _colorHandle, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_SourceTex");
 		}
 
 		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor descriptor)
@@ -37,7 +35,7 @@ namespace AnimeCelShading
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			if (_colorHandle == null || _depthHandle == null)
+			if (_colorHandleTarget == null || _depthHandle == null)
 			{
 				return;
 			}
@@ -52,15 +50,14 @@ namespace AnimeCelShading
 			CommandBuffer cmd = CommandBufferPool.Get("Anime Stack");
 			VolumeStack stack = VolumeManager.instance.stack;
 
-			cmd.Blit(_depthHandle, _sourceDepthHandle);
-			cmd.Blit(_colorHandle, _sourceColorHandle);
+			cmd.Blit(_colorHandleTarget, _colorHandle);
 
-			cmd.SetGlobalTexture(_sourceColorHandle.name, _sourceColorHandle.nameID);
-			cmd.SetGlobalTexture(_sourceDepthHandle.name, _sourceDepthHandle.nameID);
+			cmd.SetGlobalTexture(_colorHandle.name, _colorHandle.nameID);
+			cmd.SetGlobalTexture(s_depthId, _depthHandle.nameID);
 
 			CoreUtils.SetRenderTarget(
 				cmd,
-				_colorHandle,
+				_colorHandleTarget,
 				RenderBufferLoadAction.DontCare,
 				RenderBufferStoreAction.Store,
 				ClearFlag.None,
@@ -88,7 +85,7 @@ namespace AnimeCelShading
 
 		public override void OnCameraCleanup(CommandBuffer cmd)
 		{
-			_colorHandle = null;
+			_colorHandleTarget = null;
 			_depthHandle = null;
 		}
 
@@ -99,15 +96,15 @@ namespace AnimeCelShading
 
 		public void Setup(RTHandle colorHandle, RTHandle depthHandle)
 		{
-			_colorHandle = colorHandle;
+			_colorHandleTarget = colorHandle;
 			_depthHandle = depthHandle;
 		}
 
 		public void Dispose()
 		{
-			_colorHandle?.Release();
+			_colorHandleTarget?.Release();
 			_depthHandle?.Release();
-			_sourceColorHandle?.Release();
+			_colorHandle?.Release();
 		}
 
 		private void Render(CommandBuffer cmd, ref RenderingData renderingData, VolumeComponent component, ComponentData data)
