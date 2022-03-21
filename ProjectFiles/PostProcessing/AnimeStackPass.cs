@@ -9,13 +9,13 @@ namespace AnimeCelShading
 	{
 		private static readonly int s_depthId = Shader.PropertyToID("_SourceDepth");
 
+		private RTHandle _tempColor;
 		private RTHandle _colorHandle;
-		private RTHandle _colorHandleTarget;
 		private RTHandle _depthHandle;
 
 		public AnimeStackPass()
 		{
-			renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
+			renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
 		}
 
 		public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
@@ -24,42 +24,51 @@ namespace AnimeCelShading
 
 			RenderTextureDescriptor descriptor = cameraData.cameraTargetDescriptor;
 			descriptor.depthBufferBits = 0;
+			descriptor.msaaSamples = 1;
 
-			RenderingUtils.ReAllocateIfNeeded(ref _colorHandle, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_SourceTex");
+			RenderingUtils.ReAllocateIfNeeded(ref _tempColor, descriptor, FilterMode.Bilinear, TextureWrapMode.Clamp, name: "_SourceTex");
 		}
 
 		public override void Configure(CommandBuffer cmd, RenderTextureDescriptor descriptor)
 		{
-			
+
 		}
 
 		public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
 		{
-			if (_colorHandleTarget == null || _depthHandle == null)
+			if (_colorHandle == null || _depthHandle == null)
 			{
 				return;
 			}
 
 			ref CameraData cameraData = ref renderingData.cameraData;
+			VolumeStack stack = VolumeManager.instance?.stack;
 
-			if (!cameraData.postProcessEnabled)
+			if (!cameraData.postProcessEnabled || stack == null)
 			{
 				return;
 			}
 
 			CommandBuffer cmd = CommandBufferPool.Get("Anime Stack");
-			VolumeStack stack = VolumeManager.instance.stack;
+			cmd.Clear();
 
-			cmd.Blit(_colorHandleTarget, _colorHandle);
+			if (cameraData.xrRendering)
+			{
+				Blitter.BlitCameraTexture(cmd, _colorHandle, _tempColor, 0f, true);
+			}
+			else
+			{
+				cmd.Blit(_colorHandle, _tempColor.nameID);
+			}
 
-			cmd.SetGlobalTexture(_colorHandle.name, _colorHandle.nameID);
+			cmd.SetGlobalTexture(_tempColor.name, _tempColor.nameID);
 			cmd.SetGlobalTexture(s_depthId, _depthHandle.nameID);
 
 			CoreUtils.SetRenderTarget(
 				cmd,
-				_colorHandleTarget,
+				_colorHandle,
 				RenderBufferLoadAction.DontCare,
-				RenderBufferStoreAction.Store,
+				RenderBufferStoreAction.DontCare,
 				ClearFlag.None,
 				Color.white
 			);
@@ -85,7 +94,7 @@ namespace AnimeCelShading
 
 		public override void OnCameraCleanup(CommandBuffer cmd)
 		{
-			_colorHandleTarget = null;
+			_colorHandle = null;
 			_depthHandle = null;
 		}
 
@@ -96,15 +105,13 @@ namespace AnimeCelShading
 
 		public void Setup(RTHandle colorHandle, RTHandle depthHandle)
 		{
-			_colorHandleTarget = colorHandle;
+			_colorHandle = colorHandle;
 			_depthHandle = depthHandle;
 		}
 
 		public void Dispose()
 		{
-			_colorHandleTarget?.Release();
-			_depthHandle?.Release();
-			_colorHandle?.Release();
+			_tempColor?.Release();
 		}
 
 		private void Render(CommandBuffer cmd, ref RenderingData renderingData, VolumeComponent component, ComponentData data)

@@ -44,7 +44,7 @@ namespace AnimeCelShading
 		public static ComponentData[] Components => s_components;
 
 		private static ComponentData[] s_components;
-
+		
 		private AnimeStackPass _pass;
 
 		public override void Create()

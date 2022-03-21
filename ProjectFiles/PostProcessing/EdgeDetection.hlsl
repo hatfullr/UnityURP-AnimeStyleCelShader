@@ -15,17 +15,17 @@
 // URP keywords.
 #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 
-TEXTURE2D(_SourceTex);
-TEXTURE2D(_SourceDepth);
+TEXTURE2D_X(_SourceTex);
+TEXTURE2D_X(_SourceDepth);
 
 SamplerState sampler_LinearClamp;
 
 float3 SampleSceneColor(float2 uv) {
-	return SAMPLE_TEXTURE2D(_SourceTex, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).rgb;
+	return SAMPLE_TEXTURE2D_X(_SourceTex, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).rgb;
 }
 
 float SampleSceneDepth(float2 uv) {
-	return SAMPLE_TEXTURE2D(_SourceDepth, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).r;
+	return SAMPLE_TEXTURE2D_X(_SourceDepth, sampler_LinearClamp, UnityStereoTransformScreenSpaceTex(uv)).r;
 }
 
 int _EdgeQuality;
@@ -77,6 +77,7 @@ float4 frag(Varyings input) : SV_Target
 
 	// Sample screen color.
 	float4 color = float4(SampleSceneColor(input.uv), 1);
+	// return float4(1, 0, 0, 1);
 
 	// Get edge values.
 	float4 edge = GetEdgeStrength(input.uv, color.rgb, 1.0 / _ScreenParams.x * _EdgeSize / _EdgeQuality, _EdgeDepth);
