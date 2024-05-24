@@ -1,6 +1,8 @@
 # Unmaintained
 Through means beyond my comprehension I (hatfullr) have somehow become the owner of this repository. I did not create this repository and I have no relation to this repository. I am unable to locate or contact the original contributor, "James Roll". As such, download this code at your own risk. I hold no liabilities related to or consisting of code, ideas, artwork, or any other property in this project or derivatives of this project. I will not delete the repository so that others can still use it.
 
+hatfullr does not own any content of the file below this sentence. 
+
 <h1 align="center">
 	<img src=".Images/PixelLit.png" alt="Lit Example" width="300">
 	<br>
